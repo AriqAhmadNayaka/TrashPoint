@@ -16,7 +16,7 @@ require_once 'database.php';
 $settings =
     [
         [
-            "url" => "http://10.60.40.204/TrashPoint",
+            "url" => "http://10.66.83.86/TrashPoint/Smester02",
             "database" => [
                 "host" => "localhost",
                 "username" => "root",
@@ -46,7 +46,7 @@ $settings =
 //=================================================================================================
 
 //=================================================================================================
-$settings = $settings[1];
+$settings = $settings[0];
 $database = new database($settings["database"]["host"], $settings["database"]["username"], $settings["database"]["password"], $settings["database"]["database"]);
 $db = $database->getConnection();
 $url = $settings["url"];

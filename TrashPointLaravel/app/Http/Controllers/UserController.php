@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Petugas;
@@ -23,7 +26,9 @@ class UserController extends Controller
                 $user = $user->setAttribute('points', $masyarakat ? $masyarakat->points : 0);
             }
         }
-        return response()->json($users);
+        return response()->json([
+            'data' => $users
+        ]);
     }
 
     public function show($id)
@@ -34,7 +39,9 @@ class UserController extends Controller
                 $masyarakat = Masyarakat::where('idUser', $user->idUser)->first();
                 $user = $user->setAttribute('points', $masyarakat->points);
             }
-            return response()->json($user);
+            return response()->json([
+                'data' => $user
+            ]);
         } else {
             return response()->json(['message' => 'User not found'], 404);
         }
@@ -42,7 +49,14 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $user = User::create($request->all());
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => $request->password,
+            'phoneNumber' => $request->phoneNumber ?? '',
+            'role' => $request->role ?? '',
+            'status' => $request->status ?? '',
+        ]);
         if ($request->role == 'admin') {
             Admin::create([
                 'idUser' => $user->idUser,
@@ -174,6 +188,20 @@ class UserController extends Controller
             }
         } else {
             return response()->json(['message' => 'User not found or not a masyarakat'], 404);
+        }
+    }
+
+    public function login(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if ($user && $user->password === $request->password) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Login successful',
+                'data' => $user
+            ]);
+        } else {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
     }
 }
