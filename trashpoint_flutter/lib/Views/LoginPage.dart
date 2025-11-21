@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'RegisterPage.dart';
 import '../Models/Users.dart';
+import '/Views/Masyarakat/HomePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -52,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // TODO: Panggil fungsi login dari Users model di sini
                     Users userLogin = Users(
                       idUser: 0,
@@ -66,12 +67,16 @@ class _LoginPageState extends State<LoginPage> {
 
                     bool success = await userLogin.login();
                     if (success) {
-                      print('Login berhasil! Selamat datang, ${userLogin.username}!');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ),
+                      );
                     } else {
                       print('Login gagal! Cek email dan password kamu ya.');
                     }
                     print("Login ditekan: ${_emailController.text}");
-                    
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,

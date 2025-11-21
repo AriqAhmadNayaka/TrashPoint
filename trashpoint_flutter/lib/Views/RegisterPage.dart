@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../Models/Users.dart';
+import 'LoginPage.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -69,9 +71,34 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // TODO: Panggil fungsi register/add user di sini
-                    print("Register ditekan: ${_usernameController.text}");
+                    Users newUser = Users(
+                      idUser: 0,
+                      username: _usernameController.text,
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      phoneNumber: _phoneController.text,
+                      role: 'masyarakat',
+                      status: 'active',
+                    );
+
+                    // Panggil fungsi add() langsung dari modelnya
+                    if (await newUser.add()) {
+                      print("Register ditekan: ${_usernameController.text}");
+                      SnackBar snackBar = const SnackBar(
+                        content: Text('Registrasi Berhasil! Silakan Login.'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.pop(
+                        context,
+                      ); // Kembali ke halaman login setelah registrasi
+                    } else {
+                      SnackBar snackBar = const SnackBar(
+                        content: Text('Registrasi Gagal! Coba lagi ya.'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
