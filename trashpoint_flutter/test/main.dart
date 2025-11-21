@@ -118,12 +118,12 @@ void main() async {
           status: '',
         );
 
-        bool success = await userLogin.login();
-        if (success) {
-          print('Login berhasil! Selamat datang, ${userLogin.username}!');
-        } else {
-          print('Login gagal! Cek email dan password kamu ya.');
-        }
+      // bool success = await userLogin.login();
+      // if (success) {
+      //   print('Login berhasil! Selamat datang, ${userLogin.username}!');
+      // } else {
+      //   print('Login gagal! Cek email dan password kamu ya.');
+      // }
 
       case '6':
         running = false;

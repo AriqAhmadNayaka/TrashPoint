@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../Models/Users.dart';
-import 'LoginPage.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -18,7 +17,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Buat Akun Baru")),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(
@@ -27,11 +25,13 @@ class _RegisterPageState extends State<RegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  "Bergabung dengan TrashPoint",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  "REGISTRASI",
                   textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 50),
+                Image.asset('Images/AddUser-bro.png', width: 800, height: 290),
+                const SizedBox(height: 50),
                 TextField(
                   controller: _usernameController,
                   decoration: const InputDecoration(
@@ -69,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     prefixIcon: Icon(Icons.lock),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: () async {
                     // TODO: Panggil fungsi register/add user di sini
@@ -103,7 +103,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        8,
+                      ), // Adjust the radius for desired roundness
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                   ),
                   child: const Text("REGISTRASI"),
                 ),

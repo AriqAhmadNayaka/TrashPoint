@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import '../../Models/Users.dart';
+import '../../Configs/ManagerSession.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text("Halaman Home Masyarakat")));
+    Users userData = SessionManager.currentUser!;
+
+    return Scaffold(body: Center(child: Text("Welcome ${userData.username}!")));
   }
 }

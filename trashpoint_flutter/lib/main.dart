@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
       title: 'TrashPoint',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 228, 255, 227),
+        ),
         useMaterial3: true,
       ),
       home: const SplashScreen(),

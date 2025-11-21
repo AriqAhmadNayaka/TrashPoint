@@ -1,4 +1,4 @@
-import '/Api/ApiService.dart';
+import '../Configs/ApiService.dart';
 
 class Users {
   final int idUser;
@@ -90,7 +90,7 @@ class Users {
     }
   }
 
-  Future<bool> login() async {
+  Future<Map<String, dynamic>> login() async {
     try {
       final data = await _api.post('login', {
         'email': email,
@@ -98,14 +98,14 @@ class Users {
       });
       // Cek apakah login berhasil berdasarkan response dari API
       if (data['success'] == true) {
-        return true;
+        return data;
       } else {
         print("Login gagal: ${data['message']}");
-        return false;
+        return data;
       }
     } catch (e) {
       print("Gagal login: $e");
-      return false;
+      return {'success': false, 'message': 'Error during login'};
     }
   }
 }

@@ -195,6 +195,10 @@ class UserController extends Controller
     {
         $user = User::where('email', $request->email)->first();
         if ($user && $user->password === $request->password) {
+            if ($user->role == 'masyarakat') {
+                $masyarakat = Masyarakat::where('idUser', $user->idUser)->first();
+                $user = $user->setAttribute('points', $masyarakat ? $masyarakat->points : 0);
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Login successful',
