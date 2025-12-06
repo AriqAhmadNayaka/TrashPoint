@@ -1,7 +1,7 @@
 import '../Configs/ApiService.dart';
 
 class Users {
-  final int idUser;
+  final int idUser, points;
   final String username, email, password, phoneNumber, role, status;
 
   // Kita butuh instance ApiService di sini
@@ -15,6 +15,7 @@ class Users {
     required this.phoneNumber,
     required this.role,
     required this.status,
+    required this.points,
   });
 
   // Konversi dari JSON (dari Laravel) ke Object Dart
@@ -27,6 +28,7 @@ class Users {
       phoneNumber: json['phoneNumber'] ?? '',
       role: json['role'] ?? 'masyarakat',
       status: json['status'] ?? 'active',
+      points: int.parse(json['points'].toString()) ?? 0,
     );
   }
 
@@ -97,6 +99,38 @@ class Users {
         'password': password,
       });
       // Cek apakah login berhasil berdasarkan response dari API
+      if (data['success'] == true) {
+        return data;
+      } else {
+        print("Login gagal: ${data['message']}");
+        return data;
+      }
+    } catch (e) {
+      print("Gagal login: $e");
+      return {'success': false, 'message': 'Error during login'};
+    }
+  }
+
+  Future<Map<String, dynamic>> redeemVoucher(int idVoucher, int idUser) async {
+    print(idUser);
+    print(idVoucher);
+    try {
+      final data = await _api.post('users/redeem-vouchers/${idUser}', {
+        'idUser': idUser,
+        'idVoucher': idVoucher,
+      });
+      return data;
+    } catch (e) {
+      print("Gagal redeem voucher: $e");
+      return {'success': false, 'message': 'Error during voucher redemption'};
+    }
+  }
+
+  Future<Map<String, dynamic>> takeOutTrashes(int idTrash, int idUser) async {
+    try {
+      final data = await _api.post('/users/take-out-trash/${idUser}', {
+        'idTrash': idTrash,
+      });
       if (data['success'] == true) {
         return data;
       } else {

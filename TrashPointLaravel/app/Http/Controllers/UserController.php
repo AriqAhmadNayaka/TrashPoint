@@ -49,31 +49,37 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'password' => ['required'],
+        ]);
+
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'phoneNumber' => $request->phoneNumber ?? '',
             'role' => $request->role ?? '',
-            'status' => $request->status ?? '',
+            'status' => $request->status ?? 'active',
         ]);
+
         if ($request->role == 'admin') {
             Admin::create([
-                'idUser' => $user->idUser,
-                // Add other admin-specific fields here
+                'idUser' => $user->idUser
             ]);
         } elseif ($request->role == 'petugas') {
             Petugas::create([
-                'idUser' => $user->idUser,
-                // Add other petugas-specific fields here
+                'idUser' => $user->idUser
             ]);
         } elseif ($request->role == 'masyarakat') {
             Masyarakat::create([
                 'idUser' => $user->idUser,
-
             ]);
         }
-        return response()->json($user, 201);
+
+        $response = ['success' => true, 'message' => 'User created successfully', 'user' => $user];
+        return response()->json($response, 201);
     }
 
     public function update(Request $request, $id)
@@ -194,14 +200,24 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        if ($user && $user->password === $request->password) {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        if ($user && Hash::check($request->password, $user->password)) {
+
             if ($user->role == 'masyarakat') {
                 $masyarakat = Masyarakat::where('idUser', $user->idUser)->first();
                 $user = $user->setAttribute('points', $masyarakat ? $masyarakat->points : 0);
             }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
             return response()->json([
                 'success' => true,
                 'message' => 'Login successful',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
                 'data' => $user
             ]);
         } else {

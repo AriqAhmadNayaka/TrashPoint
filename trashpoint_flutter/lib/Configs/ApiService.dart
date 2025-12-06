@@ -1,17 +1,8 @@
 import 'dart:convert';
-import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
   String ip = '192.168.0.101:80';
-
-  setIp(String newIp) {
-    ip = newIp;
-  }
-
-  String getIp() {
-    return ip;
-  }
 
   // Fungsi GET
   Future<dynamic> get(String endpoint) async {

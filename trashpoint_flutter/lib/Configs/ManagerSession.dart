@@ -14,6 +14,7 @@ class SessionManager {
       phoneNumber: user['phoneNumber'],
       role: user['role'],
       status: user['status'],
+      points: int.parse(user['points'].toString()),
     );
   }
 
@@ -23,5 +24,20 @@ class SessionManager {
   // Fungsi buat logout (hapus data dari kantong)
   static void logout() {
     currentUser = null;
+  }
+
+  static void updatePoints(int newPoints) {
+    if (currentUser != null) {
+      currentUser = Users(
+        idUser: currentUser!.idUser,
+        username: currentUser!.username,
+        email: currentUser!.email,
+        password: currentUser!.password,
+        phoneNumber: currentUser!.phoneNumber,
+        role: currentUser!.role,
+        status: currentUser!.status,
+        points: newPoints,
+      );
+    }
   }
 }

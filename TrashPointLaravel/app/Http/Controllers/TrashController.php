@@ -16,7 +16,10 @@ class TrashController extends Controller
     public function index()
     {
         $trashes = Trash::all();
-        return response()->json($trashes);
+        return response()->json([
+            'success' => true,
+            'data' => $trashes
+        ]);
     }
 
     public function show($id)

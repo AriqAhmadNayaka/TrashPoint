@@ -14,7 +14,10 @@ class VoucherController extends Controller
     public function index()
     {
         $vouchers = Voucher::all();
-        return response()->json($vouchers);
+        return response()->json([
+            'success' => true,
+            'data' => $vouchers
+        ]);
     }
 
     public function show($id)

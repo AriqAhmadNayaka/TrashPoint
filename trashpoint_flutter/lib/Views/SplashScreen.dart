@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'LoginPage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,29 +13,24 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-      );
+      Navigator.pushNamed(context, '/LoginPage');
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen size
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 228, 255, 227),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'Assets/Images/trashpointTextDark.png',
-              width: 300,
-              height: 70,
-            ),
-            const SizedBox(height: 20),
-            const CircularProgressIndicator.adaptive(),
-          ],
+        child: Image.asset(
+          'Assets/Images/1.png',
+          width: width,
+          height: height,
+          fit: BoxFit.cover,
         ),
       ),
     );
