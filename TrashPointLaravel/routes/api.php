@@ -25,12 +25,14 @@ Route::post('/users/redeem-vouchers/{id}', [UserController::class, 'redeem']);
 Route::get('/users/history-vouchers/{id}', [UserController::class, 'historyVouchers']);
 
 Route::get('/trash', [TrashController::class, 'index']);
+Route::get('/trash/empty', [TrashController::class, 'selectEmpty']);
 Route::get('/trash/{id}', [TrashController::class, 'show']);
 Route::post('/trash', [TrashController::class, 'store']);
 Route::put('/trash/{id}', [TrashController::class, 'update']);
 Route::delete('/trash/{id}', [TrashController::class, 'destroy']);
 Route::post('/trash-schedule/create-trash-schedule', [TrashController::class, 'createTrashSchedule']);
 Route::get('/trash-schedule/trash-schedules', [TrashController::class, 'getTrashSchedules']);
+Route::get('/trash-schedule/trash-schedules/{id}', [TrashController::class, 'getTrashScheduleByIdPetugas']);
 Route::post('/trash-schedule/add-detail-trash-schedule', [TrashController::class, 'addDetailTrashSchedule']);
 Route::post('/trash-schedule/clean-trash/{id}', [TrashController::class, 'cleanTrash']);
 Route::post('/trash-schedule/complete-trash-schedule/{id}', [TrashController::class, 'completeTrashSchedule']);

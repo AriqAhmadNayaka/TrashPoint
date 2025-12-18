@@ -127,10 +127,14 @@ class UserController extends Controller
                 }
 
                 $data = [
-                    'idMasyarakat' => $masyarakat->idMasyarakat,
-                    'points' => $masyarakat->points,
-                    'idUser' => $masyarakat->idUser,
-                    'trashStatus' => $trash ? $trash->status : null,
+                    "success" => true,
+                    'message' => 'Trash taken out successfully',
+                    "data" => [
+                        'idMasyarakat' => $masyarakat->idMasyarakat,
+                        'points' => $masyarakat->points,
+                        'idUser' => $masyarakat->idUser,
+                        'trashStatus' => $trash ? $trash->status : null,
+                    ]
                 ];
                 return response()->json($data, 201);
             } else {
@@ -149,7 +153,9 @@ class UserController extends Controller
             if ($masyarakat) {
                 $historyTakeOutTrashes = $masyarakat->historyTakeOutTrashes;
                 $historyTakeOutTrashes->load('trash');
-                return response()->json($historyTakeOutTrashes);
+                return response()->json([
+                    'data' => $historyTakeOutTrashes
+                ]);
             } else {
                 return response()->json(['message' => 'Masyarakat not found'], 404);
             }
@@ -188,7 +194,9 @@ class UserController extends Controller
             if ($masyarakat) {
                 $historyVouchers = $masyarakat->historyVouchers;
                 $historyVouchers->load('voucher');
-                return response()->json($historyVouchers);
+                return response()->json([
+                    'data' => $historyVouchers
+                ]);
             } else {
                 return response()->json(['message' => 'Masyarakat not found'], 404);
             }
@@ -209,6 +217,9 @@ class UserController extends Controller
             if ($user->role == 'masyarakat') {
                 $masyarakat = Masyarakat::where('idUser', $user->idUser)->first();
                 $user = $user->setAttribute('points', $masyarakat ? $masyarakat->points : 0);
+            } else if ($user->role == "petugas") {
+                $petugas = Petugas::where('idUser', $user->idUser)->first();
+                $user = $user->setAttribute('points', $petugas ? $petugas->idPetugas : 0);
             }
 
             $token = $user->createToken('auth_token')->plainTextToken;

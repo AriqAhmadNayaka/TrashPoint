@@ -112,8 +112,6 @@ class Users {
   }
 
   Future<Map<String, dynamic>> redeemVoucher(int idVoucher, int idUser) async {
-    print(idUser);
-    print(idVoucher);
     try {
       final data = await _api.post('users/redeem-vouchers/${idUser}', {
         'idUser': idUser,
@@ -128,18 +126,45 @@ class Users {
 
   Future<Map<String, dynamic>> takeOutTrashes(int idTrash, int idUser) async {
     try {
-      final data = await _api.post('/users/take-out-trash/${idUser}', {
+      final data = await _api.post('users/take-out-trash/${idUser}', {
         'idTrash': idTrash,
       });
       if (data['success'] == true) {
         return data;
       } else {
-        print("Login gagal: ${data['message']}");
+        print("Buang gagal: ${data['message']}");
         return data;
       }
     } catch (e) {
-      print("Gagal login: $e");
-      return {'success': false, 'message': 'Error during login'};
+      print("Gagal buang: $e");
+      return {'success': false, 'message': 'Error during buang'};
+    }
+  }
+
+  Future<Map<String, dynamic>> getHistory(int idUser) async {
+    try {
+      final dataHistoryTakeOutTrash = await _api.get(
+        'users/history-take-out-trash/${idUser}',
+      );
+      final dataHistoryVoucher = await _api.get(
+        'users/history-vouchers/${idUser}',
+      );
+
+      Map<String, dynamic> data = {
+        'result': {"success": true, 'message': 'History fetched successfully'},
+        'historyTakeOutTrash': dataHistoryTakeOutTrash['data'],
+        'historyVouchers': dataHistoryVoucher['data'],
+      };
+      // print(data);
+      return data;
+    } catch (e) {
+      print("Gagal ambil history: $e");
+      return {
+        'result': {
+          "success": false,
+          'message': 'Error during fetching history',
+        },
+      };
     }
   }
 }

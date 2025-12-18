@@ -39,7 +39,6 @@ class Voucher {
     try {
       final data = await _api.get('vouchers');
       List<dynamic> list = data['data'] ?? data;
-      print(list);
       return list.map((json) => Voucher.fromJson(json)).toList();
     } catch (e) {
       print("Duh error pas ambil data: $e");

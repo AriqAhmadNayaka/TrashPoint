@@ -63,7 +63,12 @@ class _LoginPageState extends State<LoginPage> {
                       Map<String, dynamic> user = await userLogin.login();
                       if (user['success'] == true) {
                         SessionManager.saveUser(user['data']);
-                        Navigator.pushNamed(context, '/Masyarakat/HomePage');
+                        print(user['data']);
+                        if (user['data']['role'] == 'petugas') {
+                          Navigator.pushNamed(context, '/Petugas/Pengangkutan');
+                        } else {
+                          Navigator.pushNamed(context, '/Masyarakat/HomePage');
+                        }
                       } else {
                         print('Login gagal! Cek email dan password kamu ya.');
                         SnackBar snackBar = SnackBar(

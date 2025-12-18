@@ -60,6 +60,15 @@ class TrashController extends Controller
         }
     }
 
+    public function selectEmpty()
+    {
+        $trashes = Trash::where('status', '!=', 'full')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $trashes
+        ]);
+    }
+
     public function historyTakeOutTrashes($id)
     {
         $trash = Trash::find($id);
@@ -89,15 +98,33 @@ class TrashController extends Controller
         return response()->json($trashSchedules);
     }
 
+    public function getTrashScheduleByIdPetugas($id)
+    {
+        $trashSchedules = TrashSchedule::with(['petugas', 'admin', 'detailTrashSchedules' => function ($query) {
+            $query->whereHas('trash', function ($q) {
+                $q->where('status', '!=', 'empty');
+            })->with('trash');
+        }])
+            ->where('idPetugas', $id)
+            ->where('status', 'scheduled')
+            ->get();
+
+
+        return response()->json([
+            "success" => true,
+            "data" => $trashSchedules
+        ]);
+    }
+
     public function cleanTrash($id)
     {
         $trash = Trash::find($id);
         if ($trash) {
             $trash->status = 'empty';
             $trash->save();
-            return response()->json(['message' => 'Trash cleaned successfully', 'trash' => $trash]);
+            return response()->json(['success' => true, 'message' => 'Trash cleaned successfully', 'trash' => $trash]);
         } else {
-            return response()->json(['message' => 'Trash not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Trash not found'], 404);
         }
     }
 
@@ -107,9 +134,9 @@ class TrashController extends Controller
         if ($trashSchedule) {
             $trashSchedule->status = 'completed';
             $trashSchedule->save();
-            return response()->json(['message' => 'Trash schedule completed successfully', 'trashSchedule' => $trashSchedule]);
+            return response()->json(['success' => true, 'message' => 'Trash schedule completed successfully', 'trashSchedule' => $trashSchedule]);
         } else {
-            return response()->json(['message' => 'Trash schedule not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Trash schedule not found'], 404);
         }
     }
 }

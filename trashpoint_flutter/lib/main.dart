@@ -8,6 +8,8 @@ import '/Views/Masyarakat/HomePage.dart';
 import '/Views/Masyarakat/VoucherPage.dart';
 import '/Views/Masyarakat/ProfilePage.dart';
 
+import '/Views/Petugas/HomePage.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
         '/Masyarakat/HomePage': (context) => const HomePage(),
         '/Masyarakat/VoucherPage': (context) => const VoucherPage(),
         '/Masyarakat/ProfilePage': (context) => const ProfilePage(),
+
+        '/Petugas/Pengangkutan': (context) => const Pengangkutan(),
       },
     );
   }

@@ -46,12 +46,72 @@ class Trash {
 
   // --- FUNGSI CRUD (Memanggil ApiService) ---
 
+  Future<Map<String, dynamic>> cleanTrash(int idTrash) async {
+    try {
+      final data = await _api.post('trash-schedule/clean-trash/$idTrash', {});
+      // Cek apakah login berhasil berdasarkan response dari API
+      if (data['success'] == true) {
+        return data;
+      } else {
+        print("Login gagal: ${data['message']}");
+        return data;
+      }
+    } catch (e) {
+      print("Gagal clean: $e");
+      return {'success': false, 'message': 'Error during cleaning trash'};
+    }
+  }
+
+  Future<Map<String, dynamic>> completeTrashSchedule(int id) async {
+    try {
+      final data = await _api.post(
+        'trash-schedule/complete-trash-schedule/$id',
+        {},
+      );
+      // Cek apakah login berhasil berdasarkan response dari API
+      if (data['success'] == true) {
+        return data;
+      } else {
+        print("Login gagal: ${data['message']}");
+        return data;
+      }
+    } catch (e) {
+      print("Gagal clean: $e");
+      return {'success': false, 'message': 'Error during cleaning trash'};
+    }
+  }
+
   // 1. SELECT (Ambil semua user) - Static karena belum ada objeknya
   static Future<List<Trash>> selectAll() async {
     try {
       final data = await _api.get('trash');
       List<dynamic> list = data['data'] ?? data;
       return list.map((json) => Trash.fromJson(json)).toList();
+    } catch (e) {
+      print("Duh error pas ambil data: $e");
+      return [];
+    }
+  }
+
+  static Future<List<Trash>> selectEmpty() async {
+    try {
+      final data = await _api.get('trash/empty');
+      List<dynamic> list = data['data'] ?? data;
+      // print(list);
+      return list.map((json) => Trash.fromJson(json)).toList();
+    } catch (e) {
+      print("Duh error pas ambil data: $e");
+      return [];
+    }
+  }
+
+  static Future<List<dynamic>> selectSchedule(int idPetugas) async {
+    try {
+      final data = await _api.get('trash-schedule/trash-schedules/$idPetugas');
+      List<dynamic> list = data['data'] ?? data;
+      // Kembalikan raw list (List of Schedules), jangan dipaksa jadi List<Trash> dulu
+      // karena strukturnya beda (Trash ada di dalam detail_trash_schedules)
+      return list;
     } catch (e) {
       print("Duh error pas ambil data: $e");
       return [];
