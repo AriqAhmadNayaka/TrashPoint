@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
-use App\Models\Admin;
-use App\Models\Petugas;
-use App\Models\Masyarakat;
-
 class RegisteredUserController extends Controller
 {
     /**
@@ -31,39 +27,20 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        // dd($request->all());
         $request->validate([
-            'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
-            'password' => ['required', 'confirmed'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'username' => $request->username,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'phoneNumber' => $request->phoneNumber ?? '',
-            'role' => $request->role ?? '',
-            'status' => $request->status ?? 'active',
         ]);
 
-        if ($request->role == 'admin') {
-            Admin::create([
-                'idUser' => $user->idUser
-            ]);
-        } elseif ($request->role == 'petugas') {
-            Petugas::create([
-                'idUser' => $user->idUser
-            ]);
-        } elseif ($request->role == 'masyarakat') {
-            Masyarakat::create([
-                'idUser' => $user->idUser,
-            ]);
-        }
-
-        // return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
         event(new Registered($user));
 
         Auth::login($user);
