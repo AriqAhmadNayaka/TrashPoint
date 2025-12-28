@@ -263,11 +263,47 @@ class UserController extends Controller
         }
 
         if ($request->expectsJson()) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json([
+                'success' => true,
+                'message' => 'The provided credentials do not match our records.'
+            ], 401);
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+    }
+
+    public function loginJSON(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && Hash::check($request->password, $user->password)) {
+
+
+            if ($user->role == 'masyarakat') {
+                $masyarakat = Masyarakat::where('idUser', $user->idUser)->first();
+                $user = $user->setAttribute('points', $masyarakat ? $masyarakat->points : 0);
+            } else if ($user->role == "petugas") {
+                $petugas = Petugas::where('idUser', $user->idUser)->first();
+                $user = $user->setAttribute('points', $petugas ? $petugas->idPetugas : 0);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Login successful',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'data' => $user
+            ]);
+        }
     }
 }

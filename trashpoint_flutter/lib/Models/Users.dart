@@ -94,7 +94,7 @@ class Users {
 
   Future<Map<String, dynamic>> login() async {
     try {
-      final data = await _api.post('login', {
+      final data = await _api.post('loginJSON', {
         'email': email,
         'password': password,
       });

@@ -12,6 +12,7 @@ use App\Http\Controllers\VoucherController;
 // })->middleware('auth:sanctum');
 
 Route::post('login', [UserController::class, 'login']);
+Route::post('loginJSON', [UserController::class, 'loginJSON']);
 // Route::post('register', [RegisteredUserController::class, 'store']);
 
 Route::get('/users', [UserController::class, 'index']);
