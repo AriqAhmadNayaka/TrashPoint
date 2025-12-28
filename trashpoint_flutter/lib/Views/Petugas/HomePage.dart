@@ -363,7 +363,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
     print("Menyelesaikan jadwal ID: ${widget.schedule['idTrashSchedule']}");
 
     if (mounted) {
-      ScaffoldMessenger.of(context).4(
+      ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Jadwal berhasil diselesaikan!")),
       );
       widget.onCompleted?.call();

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("roadAddress");
             $table->double("latitude", 9, 6);
             $table->double("longitude", 9, 6);
-            $table->enum("status", ['empty', 'full', 'inactive'])->default('empty');
+            $table->enum("status", ['empty', 'full', 'inactive', 'scheduled'])->default('empty');
             $table->timestamps();
         });
     }

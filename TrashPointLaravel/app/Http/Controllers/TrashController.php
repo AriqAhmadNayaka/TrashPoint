@@ -35,7 +35,7 @@ class TrashController extends Controller
     public function store(Request $request)
     {
         $trash = Trash::create($request->all());
-        return response()->json($trash, 201);
+        return response()->json(["success" => true, $trash], 201);
     }
 
     public function update(Request $request, $id)
@@ -88,8 +88,14 @@ class TrashController extends Controller
 
     public function addDetailTrashSchedule(Request $request)
     {
+        $trash = Trash::find($request->idTrash);
+        $trash->status = 'scheduled';
+        $trash->save();
         $detailTrashSchedule = DetailTrashSchedule::create($request->all());
-        return response()->json($detailTrashSchedule, 201);
+        return response()->json([
+            "success" => true,
+            "data" => $detailTrashSchedule
+        ], 201);
     }
 
     public function getTrashSchedules()
