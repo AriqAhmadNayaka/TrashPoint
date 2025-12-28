@@ -81,7 +81,15 @@ class UserController extends Controller
             $response = ['success' => true, 'message' => 'User created successfully', 'user' => $user];
             return response()->json($response, 201);
         }
-        return redirect()->route('login.page')->with('success', 'User created successfully.');
+        return redirect()->route('Login.Page')->with('success', 'User created successfully.');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login')->with('success', 'Logged out successfully.');
     }
 
     public function update(Request $request, $id)

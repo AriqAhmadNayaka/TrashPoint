@@ -111,7 +111,7 @@
             </div>
             
             <div class="d-flex align-items-center justify-content-end mt-4">
-                <a href="{{ route('login.page') }}" class="already-registered me-3">Already registered?</a>
+                <a href="{{ route('Login.Page') }}" class="already-registered me-3">Already registered?</a>
                 <button type="submit" class="btn btn-register">Register</button>
             </div>
         </form>

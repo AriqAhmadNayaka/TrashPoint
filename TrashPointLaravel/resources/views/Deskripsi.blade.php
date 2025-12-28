@@ -103,7 +103,7 @@
     
     <nav class="navbar navbar-standard navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
-            <a class="navbar-brand text-success fw-bold" href="{{ route('landing.page') }}">
+            <a class="navbar-brand text-success fw-bold" href="{{ route('Landing.Page') }}">
                 <i class="fas fa-trash-alt me-2"></i> TrashPoint
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -111,13 +111,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.page') }}">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('fitur.page') }}">Fitur</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{{ route('deskripsi.page') }}">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('Landing.Page') }}">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('Fitur.Page') }}">Fitur</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ route('Deskripsi.Page') }}">Tentang Kami</a></li>
                 </ul>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('login.page') }}" class="btn btn-outline-success px-4">Login</a>
-                    <a href="{{ route('register.page') }}" class="btn btn-success px-4">Register</a>
+                    <a href="{{ route('Login.Page') }}" class="btn btn-outline-success px-4">Login</a>
+                    <a href="{{ route('Register.Page') }}" class="btn btn-success px-4">Register</a>
                 </div>
             </div>
         </div>

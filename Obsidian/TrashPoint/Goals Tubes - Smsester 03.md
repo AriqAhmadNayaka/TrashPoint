@@ -19,16 +19,16 @@ Silakan kerjakan Tugas Besar berikut ini dan kumpulkan dalam bentuk laporan deng
 
 Indikator Penilaian PABW
 -	Penilaian Program (Kelompok) Bobot Bobot 25%
-	- [ ] 1. UML sesuai requirement / use case (poin 5)
-	- [ ] 2. Use Case, Class, Sequence, dsb (sesuai kebutuhan) (poin 5)
-	- [ ] 3. Notasi benar, hubungan antar elemen konsisten (poin 5)
-	- [ ] 4. Fitur berjalan sesuai spesifikasi / UML (poin 10)
-	- [ ] 5. Struktur rapi, modular, efisien, mudah dipelihara (poin 10)
-	- [ ] 6.Memisahkan Layout (poin 10)
-	- [ ] 7. Menerapkan model asynchronous (poin 10)
+	- [x] 1. UML sesuai requirement / use case (poin 5)
+	- [x] 2. Use Case, Class, Sequence, dsb (sesuai kebutuhan) (poin 5)
+	- [x] 3. Notasi benar, hubungan antar elemen konsisten (poin 5)
+	- [x] 4. Fitur berjalan sesuai spesifikasi / UML (poin 10)
+	- [x] 5. Struktur rapi, modular, efisien, mudah dipelihara (poin 10)
+	- [x] 6.Memisahkan Layout (poin 10)
+	- [x] 7. Menerapkan model asynchronous (poin 10)
 	- [ ] 8. Menerapkan HMVC (poin 10)
-	- [ ] 9. Menerapkan Restfull API (poin 10)
-	- [ ] 10. Menerapkan multi Autentikasi & Role (poin 10)
+	- [x] 9. Menerapkan Restfull API (poin 10)
+	- [x] 10. Menerapkan multi Autentikasi & Role (poin 10)
 	- [ ] 11. Mengintegrasikan Materi yang diluar dari materi kelas (poin 15)
 
 -	Penilaian Laporan (Kelompok) Bobot 25%

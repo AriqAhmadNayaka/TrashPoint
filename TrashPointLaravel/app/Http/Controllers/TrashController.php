@@ -43,7 +43,7 @@ class TrashController extends Controller
         $trash = Trash::find($id);
         if ($trash) {
             $trash->update($request->all());
-            return response()->json($trash);
+            return response()->json(["success" => true, $trash]);
         } else {
             return response()->json(['message' => 'Trash not found'], 404);
         }
@@ -54,7 +54,7 @@ class TrashController extends Controller
         $trash = Trash::find($id);
         if ($trash) {
             $trash->delete();
-            return response()->json(['message' => 'Trash deleted successfully']);
+            return response()->json(["success" => true, 'message' => 'Trash deleted successfully']);
         } else {
             return response()->json(['message' => 'Trash not found'], 404);
         }

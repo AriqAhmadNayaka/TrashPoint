@@ -106,7 +106,7 @@
             </button>
         </div>
         
-        <div class="table-responsive px-4 py-2">
+        <div class="table-responsive px-4 py-2 h-96 overflow-auto">
             <table class="table table-hover align-middle">
                 <thead>
                     <tr class="text-muted small">
@@ -172,21 +172,29 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username" name="username" value="{{$user->username}}" required>
+                                        <label for="username{{$user->idUser}}" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username{{$user->idUser}}" name="username" value="{{$user->username}}" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="phone" class="form-label">Phone Number</label>
-                                        <input type="number" class="form-control" id="phone" name="phoneNumber" value="{{$user->phoneNumber}}" required>
+                                        <label for="role{{$user->idUser}}" class="form-label">Role</label>
+                                        <select name="role" id="role{{$user->idUser}}" class="form-control">
+                                            <option value="masyarakat" {{ $user->role == 'masyarakat' ? 'selected' : '' }}>Masyarakat</option>
+                                            <option value="petugas" {{ $user->role == 'petugas' ? 'selected' : '' }}>Petugas</option>
+                                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" value="{{$user->email}}" required>
+                                        <label for="phone{{$user->idUser}}" class="form-label">Phone Number</label>
+                                        <input type="number" class="form-control" id="phone{{$user->idUser}}" name="phoneNumber" value="{{$user->phoneNumber}}" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="password" class="form-label">Password</label>
+                                        <label for="email{{$user->idUser}}" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email{{$user->idUser}}" name="email" value="{{$user->email}}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password{{$user->idUser}}" class="form-label">Password</label>
                                         <p class="">Leave blank if you do not want to change the password</p>
-                                        <input type="password" class="form-control" id="password" name="password">
+                                        <input type="password" class="form-control" id="password{{$user->idUser}}" name="password">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -199,11 +207,13 @@
                     <script>
                     function editUser{{$user->idUser}}() {
                                     // Ambil nilai dari input
-                                    const username = document.getElementById('username').value;
-                                    const role = document.getElementById('role').value;
-                                    const phoneNumber = document.getElementById('phone').value;
-                                    const email = document.getElementById('email').value;
-                                    const password = document.getElementById('password').value;
+                                    const username = document.getElementById('username{{$user->idUser}}').value;
+                                    const role = document.getElementById('role{{$user->idUser}}').value;
+                                    const phoneNumber = document.getElementById('phone{{$user->idUser}}').value;
+                                    const email = document.getElementById('email{{$user->idUser}}').value;
+                                    const password = document.getElementById('password{{$user->idUser}}').value;
+                                    
+                                    console.log(username, role, phoneNumber, email, password);
                                     // Kirim data ke server
                                     fetch('/api/users/{{$user->idUser}}', {
                                         method: 'PUT',
@@ -272,6 +282,166 @@
                                         });
                                     } else {
                                         Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus user.', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    Swal.fire('Gagal!', 'Terjadi kesalahan koneksi.', 'error');
+                                });
+                            }
+                        });
+                    }
+                </script>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-5 bg-white">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center py-4 px-4 border-bottom">
+            <div>
+                <h5 class="fw-bold mb-0 text-success"><i class="fas fa-coins me-2"></i>Manajemen Voucher</h5>
+                <small class="text-muted">Kelola data voucher</small>
+            </div>
+
+            <button type="button" data-bs-toggle="modal" data-bs-target="#tambahVoucher" class="btn btn-success rounded-pill px-4">
+                <i class="fas fa-user-plus me-2"></i>Tambah Voucher
+            </button>
+        </div>
+        
+        <div class="table-responsive px-4 py-2 h-96 overflow-auto">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr class="text-muted small">
+                        <th class="border-0">NAMA VOUCHER</th>
+                        <th class="border-0">HARGA</th>
+                        <th class="border-0">STATUS</th>
+                        <th class="border-0 text-center">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(\App\Models\Voucher::all() as $voucher)
+                    <tr class="hover-row">
+                        <td class="py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success-subtle text-success fw-bold rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 42px; height: 42px;">
+                                    {{ $voucher->idVoucher }}
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark">{{ $voucher->voucherName }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="">
+                            <span class="">{{ $voucher->price }}</span>
+                            
+                        </td>
+                        <td><span class="badge bg-light text-success border border-success px-3">{{ $voucher->status }}</span></td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#editVoucher{{$voucher->idVoucher}}" class="btn btn-sm btn-outline-primary border-0 hover-scale"><i class="fas fa-edit"></i></button>
+                                
+                                    <button onclick="hapusVoucher({{ $voucher->idVoucher }})" class="btn btn-sm btn-outline-danger border-0 hover-scale"><i class="fas fa-trash"></i></button>
+        
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <div class="modal fade" id="editVoucher{{$voucher->idVoucher}}" tabindex="-1" aria-labelledby="addVoucherModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="addVoucherModalLabel">Edit Voucher {{$voucher->voucherName}}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="voucherName{{$voucher->idVoucher}}" class="form-label">Voucher Name</label>
+                                        <input type="text" class="form-control" id="voucherName{{$voucher->idVoucher}}" name="voucherName" value="{{$voucher->voucherName}}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="price{{$voucher->idVoucher}}" class="form-label">Price</label>
+                                        <input type="number" class="form-control" id="price{{$voucher->idVoucher}}" name="price" value="{{$voucher->price}}" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button onclick="editVoucher{{$voucher->idVoucher}}()" type="button" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                    function editVoucher{{$voucher->idVoucher}}() {
+                                    // Ambil nilai dari input
+                                    const voucherName = document.getElementById('voucherName{{$voucher->idVoucher}}').value;
+                                    const price = document.getElementById('price{{$voucher->idVoucher}}').value
+                                    
+                                    console.log(voucherName, price);
+                                    // Kirim data ke server
+                                    fetch('/api/vouchers/{{$voucher->idVoucher}}', {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        },
+                                        body: JSON.stringify({
+                                            voucherName: voucherName,
+                                            price: price,
+                                        
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            Swal.fire(({
+                                                title: 'Berhasil!',
+                                                text: 'Voucher berhasil diubah.',
+                                                icon: 'success'
+                                            })).then(() => {
+                                                location.reload();
+                                                });
+                                                
+                                        } else {
+                                            Swal.fire('Gagal!', 'Terjadi kesalahan saat merubah voucher.', 'error');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        window.location.reload();
+                                    });
+                                }
+                            </script>
+                    @endforeach
+                </tbody>
+                <script>
+                    function hapusVoucher(idVoucher) {
+                        Swal.fire({
+                            title: 'Yakin menghapus voucher ini?',
+                            text: "Data yang dihapus tidak dapat dikembalikan!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, hapus!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch('/api/vouchers/' + idVoucher, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire(
+                                            'Dihapus!',
+                                            'Voucher telah dihapus.',
+                                            'success'
+                                        ).then(() => {
+                                            location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus voucher.', 'error');
                                     }
                                 })
                                 .catch(error => {
@@ -363,7 +533,7 @@
                         text: `Lokasi: ${latitude}, ${longitude}`,
                     })).then((result) => {
                         if (result.isConfirmed) {
-                            fetch('/api/trash-schedule/create-trash-schedule', {
+                            fetch('/api/trash', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -408,6 +578,180 @@
         </div>
         </div>
 
+        <div class="card shadow-sm border-0 mb-5 bg-white">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center py-4 px-4 border-bottom">
+            <div>
+                <h5 class="fw-bold mb-0 text-success"><i class="fas fa-coins me-2"></i>Manajemen Tempat Sampah</h5>
+                <small class="text-muted">Kelola data tempat sampah</small>
+            </div>
+        </div>
+        
+        <div class="table-responsive px-4 py-2 h-96 overflow-auto">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr class="text-muted small">
+                        <th class="border-0">PROVINSI</th>
+                        <th class="border-0">KOTA</th>
+                        <th class="border-0">JALAN</th>
+                        <th class="border-0">LONGITUDE</th>
+                        <th class="border-0">LATITUDE</th>
+                        <th class="border-0">STATUS</th>
+                        <th class="border-0 text-center">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(\App\Models\Trash::all() as $Trash)
+                    <tr class="hover-row">
+                        <td class="py-3">
+                            <div class="d-flex align-items-center">
+                                
+                                <div>
+                                    <div class="fw-bold text-dark">{{ $Trash->province }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="">
+                            <span class="">{{ $Trash->city }}</span>
+                            
+                        </td>
+                        <td class="">
+                            <span class="">{{ $Trash->roadAddress }}</span>
+                            
+                        </td>
+                        <td class="">
+                            <span class="">{{ $Trash->longitude }}</span>
+                            
+                        </td>
+                        <td class="">
+                            <span class="">{{ $Trash->latitude }}</span>
+                            
+                        </td>
+                        <td><span class="badge bg-light text-success border border-success px-3">{{ $Trash->status }}</span></td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#editTrash{{$Trash->idTrash}}" class="btn btn-sm btn-outline-primary border-0 hover-scale"><i class="fas fa-edit"></i></button>
+                                
+                                    <button onclick="hapusTrash({{ $Trash->idTrash }})" class="btn btn-sm btn-outline-danger border-0 hover-scale"><i class="fas fa-trash"></i></button>
+        
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <div class="modal fade" id="editTrash{{$Trash->idTrash}}" tabindex="-1" aria-labelledby="addTrashModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="addTrashModalLabel">Edit Trash {{$Trash->province}}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="trashProvince{{$Trash->idTrash}}" class="form-label">Province</label>
+                                        <input type="text" class="form-control" id="trashProvince{{$Trash->idTrash}}" name="province" value="{{$Trash->province}}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="trashCity{{$Trash->idTrash}}" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="trashCity{{$Trash->idTrash}}" name="city" value="{{$Trash->city}}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="trashRoadAddress{{$Trash->idTrash}}" class="form-label">Road Address</label>
+                                        <input type="text" class="form-control" id="trashRoadAddress{{$Trash->idTrash}}" name="roadAddress" value="{{$Trash->roadAddress}}" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button onclick="editTrash{{$Trash->idTrash}}()" type="button" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                    function editTrash{{$Trash->idTrash}}() {
+                                    // Ambil nilai dari input
+                                    const province = document.getElementById('trashProvince{{$Trash->idTrash}}').value;
+                                    const city = document.getElementById('trashCity{{$Trash->idTrash}}').value;
+                                    const roadAddress = document.getElementById('trashRoadAddress{{$Trash->idTrash}}').value;
+                                    
+                                    console.log(province, city, roadAddress);
+                                    // Kirim data ke server
+                                    fetch('/api/trash/{{$Trash->idTrash}}', {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        },
+                                        body: JSON.stringify({
+                                            province: province,
+                                            city: city,
+                                            roadAddress: roadAddress,
+                                        
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            Swal.fire(({
+                                                title: 'Berhasil!',
+                                                text: 'Trash point berhasil diubah.',
+                                                icon: 'success'
+                                            })).then(() => {
+                                                location.reload();
+                                                });
+                                                
+                                        } else {
+                                            Swal.fire('Gagal!', 'Terjadi kesalahan saat merubah trash point.', 'error');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        window.location.reload();
+                                    });
+                                }
+                            </script>
+                    @endforeach
+                </tbody>
+                <script>
+                    function hapusTrash(idTrash) {
+                        Swal.fire({
+                            title: 'Yakin menghapus trash point ini?',
+                            text: "Data yang dihapus tidak dapat dikembalikan!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, hapus!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch('/api/trash/' + idTrash, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire(
+                                            'Dihapus!',
+                                            'Trash point telah dihapus.',
+                                            'success'
+                                        ).then(() => {
+                                            location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus trash point.', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    Swal.fire('Gagal!', 'Terjadi kesalahan koneksi.', 'error');
+                                });
+                            }
+                        });
+                    }
+                </script>
+            </table>
+        </div>
+    </div>
     
 
     <div class="card card-custom shadow-sm border-0 bg-white">
@@ -454,28 +798,28 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
+                    <label for="add_username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="add_username" name="username" required>
                 </div>
                 <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select name="role" id="role" class="form-control">
+                    <label for="add_role" class="form-label">Role</label>
+                    <select name="role" id="add_role" class="form-control">
                         <option value="masyarakat">Masyarakat</option>
                         <option value="petugas">Petugas</option>
                         <option value="admin">Admin</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Phone Number</label>
-                    <input type="number" class="form-control" id="phone" name="phoneNumber" required>
+                    <label for="add_phone" class="form-label">Phone Number</label>
+                    <input type="number" class="form-control" id="add_phone" name="phoneNumber" required>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <label for="add_email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="add_email" name="email" required>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <label for="add_password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="add_password" name="password" required>
                 </div>
             </div>
             <div class="modal-footer">
@@ -485,29 +829,48 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="tambahVoucher" tabindex="-1" aria-labelledby="addVoucherModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addVoucherModalLabel">Tambah Voucher Baru</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="add_voucher_name" class="form-label">Voucher name</label>
+                    <input type="text" class="form-control" id="add_voucher_name" name="voucher_name" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="add_voucherPrice" class="form-label">Voucher Price</label>
+                    <input type="Number" class="form-control" id="add_voucherPrice" name="voucherPrice" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button onclick="tambahVoucher()" type="button" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
-    function tambahUser() {
+    function tambahVoucher() {
                     // Ambil nilai dari input
-                    const username = document.getElementById('username').value;
-                    const role = document.getElementById('role').value;
-                    const phoneNumber = document.getElementById('phone').value;
-                    const email = document.getElementById('email').value;
-                    const password = document.getElementById('password').value;
-
+                    const voucher_name = document.getElementById('add_voucher_name').value;
+                    const voucherPrice = document.getElementById('add_voucherPrice').value;
+                    console.log(voucher_name, voucherPrice);
                     // Kirim data ke server
-                    fetch('/api/users', {
+                    fetch('/api/vouchers', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         body: JSON.stringify({
-                            username: username,
-                            role: role,
-                            phoneNumber: phoneNumber,
-                            email: email,
-                            password: password
+                            voucherName: voucher_name,
+                            price: voucherPrice
                         })
                     })
                     .then(response => response.json())
@@ -515,14 +878,14 @@
                         if (data.success) {
                             Swal.fire(({
                                 title: 'Berhasil!',
-                                text: 'User berhasil ditambahkan.',
+                                text: 'Voucher berhasil ditambahkan.',
                                 icon: 'success'
                             })).then(() => {
                                 location.reload();
                                 });
                                 
                         } else {
-                            Swal.fire('Gagal!', 'Terjadi kesalahan saat menambahkan user.', 'error');
+                            Swal.fire('Gagal!', 'Terjadi kesalahan saat menambahkan voucher.', 'error');
                         }
                     })
                     .catch(error => {

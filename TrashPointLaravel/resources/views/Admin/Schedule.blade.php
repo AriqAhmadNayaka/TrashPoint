@@ -168,11 +168,10 @@
                         <th class="border-0">PEMBERI TUGAS</th>
                         <th class="border-0">STATUS</th>
                         <th class="border-0">JADWAL</th>
-                        <th class="border-0 text-center">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(TrashSchedule::where('status', 'scheduled')->get() as $TrashSchedule)
+                    @foreach(TrashSchedule::get() as $TrashSchedule)
                     <tr class="hover-row">
                         <td class="py-3">
                             <div class="d-flex align-items-center">
@@ -189,7 +188,13 @@
                             <span class="">{{ User::find(Admin::find($TrashSchedule->idAdmin)->idUser)->username }}</span>
                             {{-- <div class="small text-muted">POIN TERAKHIR</div> --}}
                         </td>
-                        <td><span class="badge bg-light text-success border border-success px-3">{{ $TrashSchedule->status }}</span></td>
+                        <td>
+                            @if ($TrashSchedule->status == 'scheduled')
+                            <span class="badge bg-light text-warning border border-warning px-3">{{ $TrashSchedule->status }}</span>
+                            @elseif ($TrashSchedule->status == 'completed')
+                            <span class="badge bg-light text-success border border-success px-3">{{ $TrashSchedule->status }}</span>
+                            @endif
+                            </td>
                         <td class="">
                             <span class="">{{ $TrashSchedule->scheduleDateTime }}</span>
                             {{-- <div class="small text-muted">POIN TERAKHIR</div> --}}
@@ -200,73 +205,15 @@
                                 {{-- <button onclick="OpenModalTempatSampahTambah{{$user->idUser}}()" class="btn btn-sm btn-outline-primary border-0 hover-scale"><i class="fas fa-edit"></i></button> --}}
                                 {{-- <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Hapus user ini?')"> --}}
                                     {{-- @csrf @method('DELETE') --}}
-                                    <button onclick="hapusUser()" class="btn btn-sm btn-outline-danger border-0 hover-scale"><i class="fas fa-trash"></i></button>
                                 {{-- </form> --}}
                             </div>
                         </td>
                     </tr>
                     
-                    {{-- <div id="modalTempatSampahTambah{{$user->idUser}}" class="fixed inset-0 flex items-center justify-center hidden" style="background-color: rgb(36, 36, 36, 0.8)">
-                        <div class="bg-white p-5 rounded shadow-md w-2/6 h-max mx-5">
-                            
-
-                            <button onclick="closeModalTempatSampahTambah{{$user->idUser}}()" class="bg-red-500 w-full textWhite px-4 py-2 mt-3 rounded">Tutup</button>
-                        </div>
-                    </div>
-                    <script>
-                        function OpenModalTempatSampahTambah{{$user->idUser}}() {
-                            document.getElementById("modalTempatSampahTambah{{$user->idUser}}").classList.remove("hidden");
-                        }
-
-                        function closeModalTempatSampahTambah{{$user->idUser}}() {
-                            document.getElementById("modalTempatSampahTambah{{$user->idUser}}").classList.add("hidden");
-                        }
-                    </script> --}}
-                    
-                    
                     @endforeach
                 </tbody>
                 
-                <script>
-                     function hapusUser(idUser) {
-                //         Swal.fire({
-                //             title: 'Yakin menghapus user ini?',
-                //             text: "Data yang dihapus tidak dapat dikembalikan!",
-                //             icon: 'warning',
-                //             showCancelButton: true,
-                //             confirmButtonColor: '#3085d6',
-                //             cancelButtonColor: '#d33',
-                //             confirmButtonText: 'Ya, hapus!'
-                //         }).then((result) => {
-                //             if (result.isConfirmed) {
-                //                 fetch('/api/users/' + idUser, {
-                //                     method: 'DELETE',
-                //                     headers: {
-                //                         'Content-Type': 'application/json',
-                //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                //                     }
-                //                 })
-                //                 .then(response => response.json())
-                //                 .then(data => {
-                //                     if (data.success) {
-                //                         Swal.fire(
-                //                             'Dihapus!',
-                //                             'User telah dihapus.',
-                //                             'success'
-                //                         ).then(() => {
-                //                             location.reload();
-                //                         });
-                //                     } else {
-                //                         Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus user.', 'error');
-                //                     }
-                //                 })
-                //                 .catch(error => {
-                //                     Swal.fire('Gagal!', 'Terjadi kesalahan koneksi.', 'error');
-                //                 });
-                //             }
-                //         });
-                //     }
-                </script>
+            
             </table>
         </div>
     </div>
