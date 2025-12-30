@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 Route::get('/', function () {
-    return view('landing');
+    return view('Landing');
 })->name('Landing.Page');
 
 Route::get('/fitur', function () {
-    return view('fitur');
+    return view('Fitur');
 })->name('Fitur.Page');
 
 Route::get('/tentang-kami', function () {
-    return view('deskripsi');
+    return view('Deskripsi');
 })->name('Deskripsi.Page');
 
 // Route::get('/berita/{id}', function ($id) {
@@ -38,9 +38,13 @@ Route::post('/register', [UserController::class, 'store'])->name('register');
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+    Route::get('/profile', function () {
+        return view('Profile.Profile');
+    })->name('Profile.Page');
+
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/admin/homepage', function () {
-            return view('admin.Homepage');
+            return view('Admin.Homepage');
         })->name('Admin.Homepage.Page');
 
         Route::get('/admin/schedule', function () {
@@ -50,7 +54,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:masyarakat'])->group(function () {
         Route::get('/masyarakat/homepage', function () {
-            return view('masyarakat.Homepage');
+            return view('Masyarakat.Homepage');
         })->name('Masyarakat.Homepage.Page');
 
         Route::get('/masyarakat/laporan', function () {
@@ -64,7 +68,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:petugas'])->group(function () {
         Route::get('/petugas/homepage', function () {
-            return view('petugas.Homepage');
+            return view('Petugas.Homepage');
         })->name('Petugas.Homepage.Page');
     });
 });

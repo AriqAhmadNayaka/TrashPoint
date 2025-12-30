@@ -84,6 +84,41 @@ class UserController extends Controller
         return redirect()->route('Login.Page')->with('success', 'User created successfully.');
     }
 
+    public function storeJSON(Request $request)
+    {
+        $request->validate([
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'password' => ['required'],
+        ]);
+
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phoneNumber' => $request->phoneNumber ?? '',
+            'role' => $request->role ?? 'masyarakat',
+            'status' => $request->status ?? 'active',
+        ]);
+
+        if ($request->role == 'admin') {
+            Admin::create([
+                'idUser' => $user->idUser
+            ]);
+        } elseif ($request->role == 'petugas') {
+            Petugas::create([
+                'idUser' => $user->idUser
+            ]);
+        } elseif ($request->role == 'masyarakat') {
+            Masyarakat::create([
+                'idUser' => $user->idUser,
+            ]);
+        }
+
+        $response = ['success' => true, 'message' => 'User created successfully', 'user' => $user];
+        return response()->json($response, 201);
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();

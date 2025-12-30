@@ -62,7 +62,7 @@ class Users {
   // 2. ADD (Simpan user baru)
   Future<bool> add() async {
     try {
-      await _api.post('users', toJson());
+      await _api.post('usersJSON', toJson());
       return true;
     } catch (e) {
       print("Gagal nambah user sayang: $e");

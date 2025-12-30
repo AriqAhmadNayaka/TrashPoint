@@ -176,14 +176,6 @@
                                         <input type="text" class="form-control" id="username{{$user->idUser}}" name="username" value="{{$user->username}}" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="role{{$user->idUser}}" class="form-label">Role</label>
-                                        <select name="role" id="role{{$user->idUser}}" class="form-control">
-                                            <option value="masyarakat" {{ $user->role == 'masyarakat' ? 'selected' : '' }}>Masyarakat</option>
-                                            <option value="petugas" {{ $user->role == 'petugas' ? 'selected' : '' }}>Petugas</option>
-                                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="phone{{$user->idUser}}" class="form-label">Phone Number</label>
                                         <input type="number" class="form-control" id="phone{{$user->idUser}}" name="phoneNumber" value="{{$user->phoneNumber}}" required>
                                     </div>
@@ -252,6 +244,49 @@
                     @endforeach
                 </tbody>
                 <script>
+                    function tambahUser(){
+                        // Ambil nilai dari input
+                        const username = document.getElementById('add_username').value;
+                        const role = document.getElementById('add_role').value;
+                        const phoneNumber = document.getElementById('add_phone').value;
+                        const email = document.getElementById('add_email').value;
+                        const password = document.getElementById('add_password').value;
+                        
+                        console.log(username, role, phoneNumber, email, password);
+                        // Kirim data ke server
+                        fetch('/api/users', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                username: username,
+                                role: role,
+                                phoneNumber: phoneNumber,
+                                email: email,
+                                password: password
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire(({
+                                    title: 'Berhasil!',
+                                    text: 'User berhasil ditambahkan.',
+                                    icon: 'success'
+                                })).then(() => {
+                                    location.reload();
+                                    });
+                                    
+                            } else {
+                                Swal.fire('Gagal!', 'Terjadi kesalahan saat menambahkan user.', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            window.location.reload();
+                        });
+                    }
                     function hapusUser(idUser) {
                         Swal.fire({
                             title: 'Yakin menghapus user ini?',

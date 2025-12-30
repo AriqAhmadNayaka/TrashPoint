@@ -9,6 +9,7 @@ import '/Views/Masyarakat/VoucherPage.dart';
 import '/Views/Masyarakat/ProfilePage.dart';
 
 import '/Views/Petugas/HomePage.dart';
+import '/Views/Petugas/ProfilePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/Masyarakat/ProfilePage': (context) => const ProfilePage(),
 
         '/Petugas/Pengangkutan': (context) => const Pengangkutan(),
+        '/Petugas/ProfilePage': (context) => const ProfilePagePetugas(),
       },
     );
   }

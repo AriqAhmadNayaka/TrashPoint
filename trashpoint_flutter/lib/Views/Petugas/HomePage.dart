@@ -24,20 +24,18 @@ class _PengangkutanState extends State<Pengangkutan> {
         title: const Text("Daftar Tugas Pengangkutan"),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
+        automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           if (index == 0) {
-            Navigator.pushNamed(context, '/Petugas/HomePage');
+            Navigator.pushNamed(context, '/Petugas/Pengangkutan');
           } else if (index == 1) {
-            Navigator.pushNamed(context, '/Masyarakat/VoucherPage');
-          } else if (index == 2) {
-            Navigator.pushNamed(context, '/Masyarakat/ProfilePage');
+            Navigator.pushNamed(context, '/Petugas/ProfilePage');
           }
         },
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.shop), label: 'Voucher'),
           NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
@@ -319,30 +317,29 @@ class _ScheduleCardState extends State<ScheduleCard> {
                 ),
 
           // Action Button
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isAllCollected
-                      ? Colors.green
-                      : const Color.fromRGBO(77, 122, 115, 1),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+          if (isAllCollected)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  _completeSchedule();
-                },
-                child: const Text(
-                  "Konfirmasi Selesai",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  onPressed: () {
+                    _completeSchedule();
+                  },
+                  child: const Text(
+                    "Konfirmasi Selesai",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );

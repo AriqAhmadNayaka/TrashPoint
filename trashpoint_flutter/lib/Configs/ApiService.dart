@@ -2,18 +2,18 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  String ip = '192.168.0.101:80';
+  String ip = 'ariqnayaka.cyou';
 
   // Fungsi GET
   Future<dynamic> get(String endpoint) async {
-    final response = await http.get(Uri.parse('http://${ip}/api/$endpoint'));
+    final response = await http.get(Uri.parse('https://${ip}/api/$endpoint'));
     return _handleResponse(response);
   }
 
   // Fungsi POST
   Future<dynamic> post(String endpoint, Map<String, dynamic> data) async {
     final response = await http.post(
-      Uri.parse('http://${ip}/api/$endpoint'),
+      Uri.parse('https://${ip}/api/$endpoint'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(data),
     );
@@ -23,7 +23,7 @@ class ApiService {
   // Fungsi PUT (Update)
   Future<dynamic> put(String endpoint, Map<String, dynamic> data) async {
     final response = await http.put(
-      Uri.parse('http://${ip}/api/$endpoint'),
+      Uri.parse('https://${ip}/api/$endpoint'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(data),
     );
@@ -32,7 +32,9 @@ class ApiService {
 
   // Fungsi DELETE
   Future<dynamic> delete(String endpoint) async {
-    final response = await http.delete(Uri.parse('http://${ip}/api/$endpoint'));
+    final response = await http.delete(
+      Uri.parse('https://${ip}/api/$endpoint'),
+    );
     return _handleResponse(response);
   }
 

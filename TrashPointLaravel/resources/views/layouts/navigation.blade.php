@@ -8,8 +8,7 @@
                             <a href="{{ route('Masyarakat.Homepage.Page') }}" class="{{ request()->routeIs('Masyarakat.Homepage.Page') ? 'active' : '' }}">
                                 <i class="fas fa-chart-line me-2"></i>Dashboard
                             </a>
-                            <a href="{{ route('Masyarakat.Laporan.Page') }}"><i class="fas fa-file-alt me-2"></i>Laporan</a>
-                            {{-- <a href="{{ route('Masyarakat.Pengaturan.Page') }}"><i class="fas fa-cogs me-2"></i>Pengaturan</a> --}}
+                            {{-- <a href="{{ route('Masyarakat.Laporan.Page') }}"><i class="fas fa-file-alt me-2"></i>Laporan</a> --}}
                             @endif
                             @if (Auth::user()->role === 'admin')
                             <a href="{{ route('Admin.Homepage.Page') }}" class="{{ request()->routeIs('Admin.Homepage.Page') ? 'active' : '' }}">
@@ -17,6 +16,7 @@
                             </a>
                             <a href="{{ route('Admin.Schedule.Page') }}"><i class="fas fa-cogs me-2"></i>Schedule</a>
                             @endif
+                            <a href="{{ route('Profile.Page') }}"><i class="fas fa-cogs me-2"></i>Pengaturan</a>
                         </div>
                         <div class="mt-auto p-4">
                             <form method="POST" action="{{ route('logout') }}">

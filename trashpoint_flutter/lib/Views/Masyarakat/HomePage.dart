@@ -5,8 +5,27 @@ import '../../Models/Users.dart';
 import '../../Configs/ManagerSession.dart';
 import '../../Models/Trash.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late Future<List<Trash>> _trashFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _trashFuture = Trash.selectEmpty();
+  }
+
+  void _refreshData() {
+    setState(() {
+      _trashFuture = Trash.selectEmpty();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +50,7 @@ class HomePage extends StatelessWidget {
       ),
       // Kita pakai FutureBuilder di body biar loading datanya cuma sekali
       body: FutureBuilder<List<Trash>>(
-        future: Trash.selectEmpty(),
+        future: _trashFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -116,6 +135,48 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   // Judul kecil pemanis
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: SizedBox(
+                          height: 250,
+                          width: double.infinity,
+                          child: Image.asset(
+                            'Images/poster1.webp',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: SizedBox(
+                          height: 250,
+                          width: double.infinity,
+                          child: Image.asset(
+                            'Images/poster2.webp',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );
@@ -155,6 +216,11 @@ class HomePage extends StatelessWidget {
                   print("berhasil");
                   // Navigator.pushNamed(context, "/Masyarakat/HomePage");
                   SessionManager.updatePoints(user['data']['points']);
+
+                  // Refresh data
+                  _refreshData();
+
+                  if (!context.mounted) return;
 
                   return showDialog(
                     context: context,
