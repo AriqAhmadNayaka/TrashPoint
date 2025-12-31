@@ -191,7 +191,7 @@
 
         <div class="py-4">
             <h2 class="text-center fw-bold mb-5">Tim Pengembang Kami</h2>
-            <div class="row">
+            <div class="row g-4 justify-content-center">
                 <div class="col-md-4 team-card">
                     <h4 class="team-title">Ariq Ahmad Nayaka</h4>
                     <p class="team-role">Chief Executive Officer</p>
@@ -202,7 +202,11 @@
                 </div>
                 <div class="col-md-4 team-card">
                     <h4 class="team-title">Andi Dela Rezky</h4>
-                    <p class="team-role">Lead Developer & IoT Specialist</p>
+                    <p class="team-role">Lead Developer</p>
+                </div>
+                <div class="col-md-4 team-card">
+                    <h4 class="team-title">Imelda Putri Ameilya</h4>
+                    <p class="team-role">IoT Specialist</p>
                 </div>
             </div>
         </div>

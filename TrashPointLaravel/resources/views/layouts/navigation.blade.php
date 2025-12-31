@@ -16,6 +16,12 @@
                             </a>
                             <a href="{{ route('Admin.Schedule.Page') }}"><i class="fas fa-cogs me-2"></i>Schedule</a>
                             @endif
+                            @if (Auth::user()->role === 'petugas')
+                            <a href="{{ route('Petugas.Homepage.Page') }}" class="{{ request()->routeIs('Petugas.Homepage.Page') ? 'active' : '' }}">
+                                <i class="fas fa-chart-line me-2"></i>Homepage
+                            </a>
+                            
+                            @endif
                             <a href="{{ route('Profile.Page') }}"><i class="fas fa-cogs me-2"></i>Pengaturan</a>
                         </div>
                         <div class="mt-auto p-4">
