@@ -131,6 +131,36 @@
         </div>
     </header>
 
+    <section id="cara-kerja" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 fw-bold" style="font-size: 2rem;">Bagaimana TrashPoint Bekerja</h2>
+            <p class="text-center text-muted mb-5">Sistem sederhana yang menghubungkan warga, titik sampah pintar, dan proses daur ulang.</p>
+            <div class="row g-4"> 
+                <div class="col-md-4 text-center">
+                    <div class="p-4 rounded" style="background:#fff;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.04)">
+                        <i class="fas fa-map-pin fa-3x text-success mb-3"></i>
+                        <h5 class="fw-bold">Temukan Smart Bin</h5>
+                        <p class="text-muted small">Cari titik Tempat Sampah Pintar terdekat melalui peta di aplikasi atau websitenya.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="p-4 rounded" style="background:#fff;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.04)">
+                        <i class="fas fa-recycle fa-3x text-success mb-3"></i>
+                        <h5 class="fw-bold">Pilah & Buang</h5>
+                        <p class="text-muted small">Masukkan sampah sesuai kategori. IoT akan memproses data pengisian untuk optimasi pengangkutan.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="p-4 rounded" style="background:#fff;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.04)">
+                        <i class="fas fa-gift fa-3x text-success mb-3"></i>
+                        <h5 class="fw-bold">Dapatkan Poin & Tukar</h5>
+                        <p class="text-muted small">Dapatkan poin tiap kontribusi, lalu tukarkan dengan voucher atau layanan lokal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="fitur-kontribusi" class="impact-section">
         <div class="container">
             <h2 class="text-center mb-5 fw-bold" style="font-size: 2.5rem;">Kontribusi Nyata Untuk Bekasi</h2>
@@ -266,6 +296,38 @@
             </div>
             <div class="text-center mt-5">
                 <a href="#" class="btn btn-outline-success px-5 py-2 fw-bold">Lihat Semua Berita</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="download-app" class="py-5">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6 text-center">
+                    <div class="shadow-sm p-4 rounded bg-white d-inline-block" style="max-width:320px;">
+                        <img src="{{ asset('assets/images/app-screenshot.png') }}" alt="TrashPoint App" class="img-fluid mb-3" style="border-radius:12px;">
+                        <div class="badge bg-secondary text-white px-3 py-2 mt-2">Coming Soon — Android & iOS</div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="fw-bold">Aplikasi TrashPoint — Bawa Smart Bin ke Saku Anda</h2>
+                    <p class="text-muted">Pantau lokasi Tempat Sampah Pintar, kumpulkan poin, dan dapatkan reward lokal. Lebih mudah, cepat, dan ramah lingkungan.</p>
+                    <ul class="list-unstyled mb-3">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Peta real-time smart-bin terdekat</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Lacak poin & riwayat penukaran</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Notifikasi pengosongan dan jadwal pengangkutan</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Fitur edukasi untuk pilah sampah</li>
+                    </ul>
+                    <div class="d-flex gap-2 mb-2">
+                        <a href="#" class="btn btn-success d-flex align-items-center px-4 py-2">
+                            <i class="fab fa-google-play fa-lg me-2"></i> Google Play
+                        </a>
+                        <a href="#" class="btn btn-outline-dark d-flex align-items-center px-4 py-2">
+                            <i class="fab fa-apple fa-lg me-2"></i> App Store
+                        </a>
+                    </div>
+                    <p class="small text-muted mt-2">Segera tersedia untuk Android & iOS. Kami menjaga privasi data pengguna sesuai peraturan setempat.</p>
+                </div>
             </div>
         </div>
     </section>
